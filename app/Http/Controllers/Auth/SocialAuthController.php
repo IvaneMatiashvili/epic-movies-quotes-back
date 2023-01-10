@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Email;
 use App\Models\User;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -21,7 +22,7 @@ class SocialAuthController extends Controller
 		return response()->json([
 			'url' => Socialite::driver('google')
 				->stateless()
-				->redirectUrl('http://127.0.0.1:3000/' . $currentLocale . '?stage=' . $currentStage . '&from=google')
+				->redirectUrl(config('services.google.redirect') . '/' . $currentLocale . '?stage=' . $currentStage . '&from=google')
 				->redirect()
 				->getTargetUrl(),
 		]);
@@ -35,11 +36,11 @@ class SocialAuthController extends Controller
 			$stage === 'login' ? $currentStage = 'login' : $currentStage = 'register';
 
 			config([
-				'services.google.redirect' => 'http://127.0.0.1:3000/' . $currentLocale . '?stage=' . $currentStage . '&from=google',
+				'services.google.redirect' => config('services.google.redirect') . '/' . $currentLocale . '?stage=' . $currentStage . '&from=google',
 			]);
 			$user = Socialite::driver('google')->stateless()->user();
 		}
-		catch (\Exception $e)
+		catch (Exception $e)
 		{
 			return response()->json(['error' => 'forbidden'], 403);
 		}
