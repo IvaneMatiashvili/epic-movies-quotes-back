@@ -23,7 +23,7 @@
         margin-top: 3.5rem;
         color: #FFFFFF;
         font-family: 'Inter', 'sans-serif';">
-            {{ __('content.hola') }}
+            {{ __('content.hola') .' ' .  $user->name }}
         </p>
 
     <p class="confirmation" style="font-weight: 400;
@@ -34,7 +34,7 @@
         font-family: 'Inter', 'sans-serif';">
         {{ __('content.thanksForJoiningAndVerify') }}
     </p>
-        <a href="{{ urldecode('http://localhost:3000/?stage=emailActivated&feedback=').$url  }}" style=";
+        <a href="{{ $locale === 'ka' ? urldecode(env('FRONT_GEORGIAN_URL').'?stage=emailActivated&feedback=').$url : urldecode(env('FRONT_URL').'?stage=emailActivated&feedback=').$url  }}" style=";
         margin-top: 2.5rem;
         font-size: 18px;
         font-weight: 400;
@@ -67,7 +67,7 @@
         margin-top: 2rem;
         color: #DDCCAA;
         font-family: 'Inter', 'sans-serif';">
-        {{urldecode('http://localhost:3000/?stage=emailActivated&feedback=').$url}}
+        {{$locale === 'ka' ? urldecode(env('FRONT_GEORGIAN_URL').'?stage=emailActivated&feedback=').$url : urldecode(env('FRONT_URL').'?stage=emailActivated&feedback=').$url}}
     </p>
 
     <p class="confirmation" style="font-weight: 400;

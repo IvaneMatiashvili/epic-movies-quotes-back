@@ -16,15 +16,21 @@ class VerifyEmail extends Mailable
 
 	public $url;
 
+	public $user;
+
+	public $locale;
+
 	/**
 	 * Create a new message instance.
 	 *
 	 * @return void
 	 */
-	public function __construct($email, $url)
+	public function __construct($email, $url, $user, $locale)
 	{
 		$this->email = $email;
 		$this->url = $url;
+		$this->user = $user;
+		$this->locale = $locale;
 	}
 
 	/**

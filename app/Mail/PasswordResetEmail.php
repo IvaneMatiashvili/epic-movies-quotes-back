@@ -16,15 +16,24 @@ class PasswordResetEmail extends Mailable
 
 	public $url;
 
+	public $user;
+
+	public $locale;
+
 	/**
 	 * Create a new message instance.
 	 *
-	 * @return void
+	 * @param $email
+	 * @param $url
+	 * @param $user
+	 * @param $locale1
 	 */
-	public function __construct($email, $url)
+	public function __construct($email, $url, $user, $locale)
 	{
 		$this->email = $email;
 		$this->url = $url;
+		$this->user = $user;
+		$this->locale = $locale;
 	}
 
 	/**

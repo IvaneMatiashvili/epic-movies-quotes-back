@@ -18,8 +18,9 @@ class RegisterController extends Controller
 	public function register(StoreRegistrationRequest $request): JsonResponse
 	{
 		$validated = $request->validated();
+		$locale = request()->input('locale');
 
-		request()->input('locale') === 'en' ? App::setLocale('en') : App::setLocale('ka');
+		$locale === 'en' ? App::setLocale('en') : App::setLocale('ka');
 
 		$user = User::create([
 			'name'     => $validated['name'],
@@ -35,7 +36,7 @@ class RegisterController extends Controller
 				'paramId' => $email->id,
 			]
 		);
-		Mail::to($email)->send(new VerifyEmail($email->email, $url));
+		Mail::to($email)->send(new VerifyEmail($email->email, $url, $user, $locale));
 
 		return response()->json([$user, $email], 201);
 	}

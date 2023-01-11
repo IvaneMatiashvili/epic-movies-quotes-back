@@ -18,10 +18,13 @@ class PasswordResetController extends Controller
 	public function submitForgetPasswordForm(StoreEmailRequest $request): JsonResponse
 	{
 		$validated = $request->validated();
-		request()->input('locale') === 'en' ? App::setLocale('en') : App::setLocale('ka');
+		$locale = request()->input('locale');
+
+		$locale === 'en' ? App::setLocale('en') : App::setLocale('ka');
 
 		$requestEmail = $validated['email'];
 		$email = Email::where('email', $requestEmail)->first();
+		$user = $email->user;
 
 		if ($email->email_verified_at === null)
 		{
@@ -35,7 +38,7 @@ class PasswordResetController extends Controller
 				'paramId' => $email->id,
 			]
 		);
-		Mail::to($email)->send(new PasswordResetEmail($email->email, $url));
+		Mail::to($email)->send(new PasswordResetEmail($email->email, $url, $user, $locale));
 
 		return response()->json($email, 200);
 	}
