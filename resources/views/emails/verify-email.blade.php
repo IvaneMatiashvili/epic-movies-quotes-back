@@ -34,7 +34,7 @@
         font-family: 'Inter', 'sans-serif';">
         {{ __('content.thanksForJoiningAndVerify') }}
     </p>
-        <a href="{{ $locale === 'ka' ? urldecode(env('FRONT_GEORGIAN_URL').'?stage=emailActivated&feedback=').$url : urldecode(env('FRONT_URL').'?stage=emailActivated&feedback=').$url  }}" style=";
+        <a href="{{ $locale === 'ka' ? urldecode(env('FRONT_URL').'ka'.'?stage=emailActivated&feedback=').$url : urldecode(env('FRONT_URL').'?stage=emailActivated&feedback=').$url  }}" style=";
         margin-top: 2.5rem;
         font-size: 18px;
         font-weight: 400;
@@ -67,7 +67,7 @@
         margin-top: 2rem;
         color: #DDCCAA;
         font-family: 'Inter', 'sans-serif';">
-        {{$locale === 'ka' ? urldecode(env('FRONT_GEORGIAN_URL').'?stage=emailActivated&feedback=').$url : urldecode(env('FRONT_URL').'?stage=emailActivated&feedback=').$url}}
+        {{$locale === 'ka' ? urldecode(env('FRONT_URL').'ka'.'?stage=emailActivated&feedback=').$url : urldecode(env('FRONT_URL').'?stage=emailActivated&feedback=').$url}}
     </p>
 
     <p class="confirmation" style="font-weight: 400;
