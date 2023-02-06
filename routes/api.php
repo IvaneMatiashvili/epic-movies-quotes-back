@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function () {
+Route::middleware('auth:sanctum')->group(function () {
 	Route::post('/edit-user-information', [UserController::class, 'update']);
 	Route::get('/get-user-information', [UserController::class, 'get']);
 	Route::post('/create-new-email', [UserController::class, 'createNewEmail']);
