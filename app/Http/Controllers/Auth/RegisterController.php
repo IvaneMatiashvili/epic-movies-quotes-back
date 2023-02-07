@@ -19,6 +19,7 @@ class RegisterController extends Controller
 	{
 		$validated = $request->validated();
 		$locale = request()->input('locale');
+		$pathName = '';
 
 		$locale === 'en' ? App::setLocale('en') : App::setLocale('ka');
 
@@ -27,7 +28,13 @@ class RegisterController extends Controller
 			'password' => $validated['password'],
 		]);
 
-		$email = $user->emails()->create(['email' => $validated['email'], 'user_id' => $user->id]);
+		$email = $user->emails()->create(
+			[
+				'primary_email' => true,
+				'email'         => $validated['email'],
+				'user_id'       => $user->id,
+			],
+		);
 
 		$url = URL::temporarySignedRoute(
 			'verify.email',

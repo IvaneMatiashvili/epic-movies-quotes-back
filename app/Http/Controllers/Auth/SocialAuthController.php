@@ -51,7 +51,7 @@ class SocialAuthController extends Controller
 		{
 			Auth::loginUsingId($existingUser->id, true);
 			request()->session()->regenerate();
-			return response()->json(200);
+			return response()->json($existingUser, 200);
 		}
 
 		$existingEmail = Email::where('email', $user->email)->first();
@@ -94,6 +94,6 @@ class SocialAuthController extends Controller
 
 		Auth::loginUsingId($newUser->id, true);
 		request()->session()->regenerate();
-		return response()->json([$newUser, $email], 201);
+		return response()->json($newUser, 201);
 	}
 }

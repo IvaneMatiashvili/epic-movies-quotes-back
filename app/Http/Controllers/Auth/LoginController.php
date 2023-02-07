@@ -39,7 +39,7 @@ class LoginController extends Controller
 				return response()->json(['verify_email' => 'email is not verified'], 403);
 			}
 			$request->session()->regenerate();
-			return response()->json(200);
+			return response()->json(auth()->user(), 200);
 		}
 		elseif ($password)
 		{
@@ -50,7 +50,7 @@ class LoginController extends Controller
 
 			Auth::loginUsingId($user->id, $remember);
 			$request->session()->regenerate();
-			return response()->json(200);
+			return response()->json($user, 200);
 		}
 		throw ValidationException::withMessages([
 			'user_does_not_exist'     => 'credentials does not exist',

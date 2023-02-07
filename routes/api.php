@@ -4,7 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\SocialAuthController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,8 +18,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-	return $request->user();
+Route::middleware('auth:sanctum')->group(function () {
+	Route::post('/edit-user-information', [UserController::class, 'update']);
+	Route::get('/get-user-information', [UserController::class, 'get']);
+	Route::post('/create-new-email', [UserController::class, 'createNewEmail']);
 });
 
 Route::post('/login', [LoginController::class, 'login']);
