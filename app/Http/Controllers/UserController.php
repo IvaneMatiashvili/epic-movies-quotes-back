@@ -49,10 +49,9 @@ class UserController extends Controller
 		{
 			$removedEmails = json_decode($request['emails'], true);
 
-			for ($i = 0, $iMax = count($removedEmails); $i < $iMax; $i++)
-			{
-				Email::where('email', $removedEmails[$i])->delete();
-			}
+			collect($removedEmails)->each(function ($email) {
+				Email::where('email', $email)->delete();
+			});
 		}
 		if (isset($request['password']))
 		{
