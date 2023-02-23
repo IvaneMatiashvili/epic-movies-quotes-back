@@ -53,6 +53,15 @@ class RegisterController extends Controller
 		$requestEmail = request()->query('paramId');
 		$email = Email::where('id', $requestEmail)->first();
 
+		if (auth()->user() !== null && $email->user_id !== auth()->user()->id)
+		{
+			auth()->guard('web')->logout();
+			request()->session()->invalidate();
+			request()->session()->regenerateToken();
+
+			return response()->json(['error' => 'forbidden'], 403);
+		}
+
 		if ($email->email_verified_at === null)
 		{
 			$email->email_verified_at = Carbon::now();
