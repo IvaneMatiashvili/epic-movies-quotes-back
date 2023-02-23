@@ -23,8 +23,8 @@ class Comments extends Model
 		return $this->belongsTo(User::class);
 	}
 
-	public function notifications()
+	public function notification()
 	{
-		return $this->morphMany(Notifications::class, 'commentable');
+		return $this->morphOne(Notifications::class, 'notificatable');
 	}
 }

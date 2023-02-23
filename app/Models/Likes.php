@@ -18,23 +18,22 @@ class Likes extends Model
 		return $this->belongsTo(Quote::class);
 	}
 
- public function notifications()
- {
- 	return $this->morphMany(Notifications::class, 'likeable');
- }
+	public function notification()
+	{
+		return $this->morphOne(Notifications::class, 'notificatable');
+	}
 
 	public function user()
 	{
 		return $this->belongsTo(User::class);
 	}
 
-/*	public static function boot()
+	public static function boot()
 	{
 		parent::boot();
 
-		static::deleting(function ($quote) {
-			$quote->notifications()->delete();
-			$quote->notifications()->delete();
+		static::deleting(function ($like) {
+			$like->notification->delete();
 		});
-	}*/
+	}
 }

@@ -9,12 +9,11 @@ use Spatie\Translatable\HasTranslations;
 class Quote extends Model
 {
 	use HasFactory;
+	use HasTranslations;
 
 	protected $guarded = [];
 
 	protected $with = ['comments', 'likes'];
-
-	use HasTranslations;
 
 	public $translatable = ['quote', 'movie_title'];
 

@@ -11,8 +11,6 @@ class Notifications extends Model
 
 	protected $guarded = [];
 
-	protected $with = ['notificatable'];
-
 	public function notificatable()
 	{
 		return $this->morphTo();
