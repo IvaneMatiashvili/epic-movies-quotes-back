@@ -111,11 +111,13 @@ class QuoteController extends Controller
 
 		if ($updatedComment->user_id !== $storedUserId)
 		{
-			$notification = Notifications::create(['is_notification_on'  => true,
-				'notificatable_id'                                          => $comment->id,
-				'notificatable_type'                                        => 'App\Models\Comments',
-				'user_id'                                                   => $storedUserId,
+			$notification = Notifications::create([
+				'is_notification_on'  => true,
+				'notificatable_id'    => $comment->id,
+				'notificatable_type'  => 'App\Models\Comments',
+				'user_id'             => $storedUserId,
 			]);
+			
 			$createdNotification = Notifications::where('id', $notification->id)->first();
 
 			event(new NotificationStored($createdNotification));
