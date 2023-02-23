@@ -14,8 +14,6 @@ class BroadcastServiceProvider extends ServiceProvider
 	 */
 	public function boot()
 	{
-		Broadcast::routes(['middleware' => 'auth:sanctum']);
-
 		require base_path('routes/channels.php');
 	}
 }
