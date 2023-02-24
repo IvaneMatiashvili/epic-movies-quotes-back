@@ -55,10 +55,6 @@ class RegisterController extends Controller
 
 		if (auth()->user() !== null && $email->user_id !== auth()->user()->id)
 		{
-			auth()->guard('web')->logout();
-			request()->session()->invalidate();
-			request()->session()->regenerateToken();
-
 			return response()->json(['error' => 'forbidden'], 403);
 		}
 

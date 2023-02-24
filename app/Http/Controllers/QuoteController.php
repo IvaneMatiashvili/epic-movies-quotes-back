@@ -114,7 +114,7 @@ class QuoteController extends Controller
 
 		$comment->load('user');
 
-		if ($comment->user_id !== $storedUserId)
+		if ($comment->user_id !== (int) $storedUserId)
 		{
 			$notification = Notification::create([
 				'is_notification_on'  => true,

@@ -67,8 +67,8 @@ class UserController extends Controller
 
 		if (isset($request['email']))
 		{
-			Email::where('primary_email', 1)->update(['primary_email' => false]);
-			Email::where('email', $request['email'])->update(['primary_email' => true]);
+			$user->emails()->where('primary_email', 1)->update(['primary_email' => false]);
+			$user->emails()->where('email', $request['email'])->update(['primary_email' => true]);
 		}
 
 		return response()->json($user, 200);
