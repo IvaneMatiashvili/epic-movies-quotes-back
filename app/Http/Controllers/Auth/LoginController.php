@@ -59,7 +59,6 @@ class LoginController extends Controller
 
 	public function logOut(): JsonResponse
 	{
-		auth()->guard('web')->logout();
 		request()->session()->invalidate();
 		request()->session()->regenerateToken();
 
