@@ -12,10 +12,10 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
-
 Broadcast::routes(['middleware' => ['auth:sanctum']]);
 
 Route::middleware('auth:sanctum')->group(function () {
+	Route::post('/logout', [LoginController::class, 'logOut']);
 	Route::post('/edit-user-information', [UserController::class, 'update']);
 	Route::get('/get-user-information', [UserController::class, 'get']);
 	Route::post('/create-new-email', [UserController::class, 'createNewEmail']);

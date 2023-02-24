@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Comments extends Model
+class Like extends Model
 {
 	use HasFactory;
 
@@ -18,13 +18,22 @@ class Comments extends Model
 		return $this->belongsTo(Quote::class);
 	}
 
+	public function notification()
+	{
+		return $this->morphOne(Notification::class, 'notificatable');
+	}
+
 	public function user()
 	{
 		return $this->belongsTo(User::class);
 	}
 
-	public function notification()
+	public static function boot()
 	{
-		return $this->morphOne(Notifications::class, 'notificatable');
+		parent::boot();
+
+		static::deleting(function ($like) {
+			$like->notification()->delete();
+		});
 	}
 }

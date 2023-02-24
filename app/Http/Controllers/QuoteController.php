@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Events\NotificationStored;
-use App\Models\Comments;
+use App\Models\Comment;
 use App\Models\Movie;
-use App\Models\Notifications;
+use App\Models\Notification;
 use App\Models\Quote;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -101,29 +101,31 @@ class QuoteController extends Controller
 		$storedUserId = request()->input('user_id');
 		$comment = request()->input('comment');
 
-		$comment = Comments::create([
+		$comment = Comment::create([
 			'comment'            => $comment,
 			'user_id'            => $userId,
 			'quote_id'           => $quoteId,
 		]);
 
-		$updatedComment = Comments::Where('comment', $comment->comment)->first();
+		$comment->load('user');
 
-		if ($updatedComment->user_id !== $storedUserId)
+		/*		$updatedComment = Comments::where('comment', $comment->id)->first();*/
+
+		if ($comment->user_id !== $storedUserId)
 		{
-			$notification = Notifications::create([
+			$notification = Notification::create([
 				'is_notification_on'  => true,
 				'notificatable_id'    => $comment->id,
-				'notificatable_type'  => 'App\Models\Comments',
+				'notificatable_type'  => 'App\Models\Comment',
 				'user_id'             => $storedUserId,
 			]);
-			
-			$createdNotification = Notifications::where('id', $notification->id)->first();
+
+			$createdNotification = Notification::where('id', $notification->id)->first();
 
 			event(new NotificationStored($createdNotification));
 		}
 
-		return response()->json($updatedComment, 201);
+		return response()->json($comment, 201);
 	}
 
 	public function deleteQuote(Request $request): JsonResponse

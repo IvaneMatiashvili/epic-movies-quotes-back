@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Notifications;
+use App\Models\Notification;
 use Illuminate\Http\JsonResponse;
 
 class NotificationController extends Controller
@@ -46,7 +46,7 @@ class NotificationController extends Controller
 	public function removeNotification(): JsonResponse
 	{
 		$removedNotificationId = request()->input('removed_notification_id');
-		Notifications::where('id', $removedNotificationId)->update(['is_notification_on' => false]);
+		Notification::where('id', $removedNotificationId)->update(['is_notification_on' => false]);
 
 		return response()->json(['success'=> 'notification removed successfully'], 200);
 	}

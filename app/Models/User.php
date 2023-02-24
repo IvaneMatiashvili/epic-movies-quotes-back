@@ -65,16 +65,16 @@ class User extends Authenticatable
 
 	public function likes()
 	{
-		return $this->hasMany(Likes::class);
+		return $this->hasMany(Like::class);
 	}
 
 	public function comments()
 	{
-		return $this->hasMany(Comments::class);
+		return $this->hasMany(Comment::class);
 	}
 
 	public function notifications()
 	{
-		return $this->hasMany(Notifications::class);
+		return $this->hasMany(Notification::class);
 	}
 }
