@@ -56,4 +56,12 @@ class LoginController extends Controller
 			'user_does_not_exist'     => 'credentials does not exist',
 		]);
 	}
+
+	public function logOut(): JsonResponse
+	{
+		request()->session()->invalidate();
+		request()->session()->regenerateToken();
+
+		return response()->json(['success' => 'user logged out successfully'], 200);
+	}
 }
