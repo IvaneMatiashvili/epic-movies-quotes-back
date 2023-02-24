@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
 
 class QuoteController extends Controller
 {
-	public function getQuotes(): JsonResponse
+	public function index(): JsonResponse
 	{
 		if (Quote::latest()->first() !== null)
 		{
@@ -41,20 +41,20 @@ class QuoteController extends Controller
 		return response()->json([[]], 200);
 	}
 
-	public function searchQuotes(Request $request): JsonResponse
+	public function search(Request $request): JsonResponse
 	{
 		$quotes = quote::filter(['search' => $request['search']])->latest()->get();
 
 		return response()->json($quotes, 200);
 	}
 
-	public function getQuote(): JsonResponse
+	public function show(): JsonResponse
 	{
 		$quote = Quote::where('id', request()->query('quote_id'))->first();
 		return response()->json($quote, 200);
 	}
 
-	public function storeQuote(StoreQuoteRequest $storedRequest): JsonResponse
+	public function store(StoreQuoteRequest $storedRequest): JsonResponse
 	{
 		$request = $storedRequest->validated();
 
@@ -74,7 +74,7 @@ class QuoteController extends Controller
 		return response()->json($quote, 201);
 	}
 
-	public function editQuote(StoreUpdateQuoteRequest $updatedRequest): JsonResponse
+	public function edit(StoreUpdateQuoteRequest $updatedRequest): JsonResponse
 	{
 		$request = $updatedRequest->validated();
 		$quote = Quote::where('id', $request['quote_id'])->first();
@@ -131,7 +131,7 @@ class QuoteController extends Controller
 		return response()->json($comment, 201);
 	}
 
-	public function deleteQuote(Request $request): JsonResponse
+	public function delete(Request $request): JsonResponse
 	{
 		$quote = Quote::where('id', $request['quote_id'])->first();
 		$quote->delete();

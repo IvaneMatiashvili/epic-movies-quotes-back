@@ -7,7 +7,7 @@ use Illuminate\Http\JsonResponse;
 
 class NotificationController extends Controller
 {
-	public function getNotifications(): JsonResponse
+	public function index(): JsonResponse
 	{
 		$user = auth()->user();
 		$notifications = $user->notifications;
@@ -33,7 +33,7 @@ class NotificationController extends Controller
 		return response()->json($responseArr, 200);
 	}
 
-	public function removeNotifications(): JsonResponse
+	public function deleteAll(): JsonResponse
 	{
 		$user = auth()->user();
 		collect($user->notifications)->each(function ($notification) {
@@ -43,7 +43,7 @@ class NotificationController extends Controller
 		return response()->json(['success'=> 'notifications removed successfully'], 200);
 	}
 
-	public function removeNotification(): JsonResponse
+	public function delete(): JsonResponse
 	{
 		$removedNotificationId = request()->input('removed_notification_id');
 		Notification::where('id', $removedNotificationId)->update(['is_notification_on' => false]);

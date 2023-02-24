@@ -16,19 +16,21 @@ class MovieController extends Controller
 		return response()->json(config('genres.genres'), 200);
 	}
 
-	public function getMovies(): JsonResponse
+	public function index(): JsonResponse
 	{
 		$movies = auth()->user()->movies;
-		return response()->json($movies, 200);
+
+		$movieCollection = collect($movies)->sortByDesc('created_at')->flatten();
+		return response()->json($movieCollection, 200);
 	}
 
-	public function getMovie(): JsonResponse
+	public function show(): JsonResponse
 	{
 		$movie = Movie::where('id', request()->query('movie_id'))->first();
 		return response()->json([$movie, $movie->genres], 200);
 	}
 
-	public function storeMovie(StoreMovieRequest $storedRequest): JsonResponse
+	public function store(StoreMovieRequest $storedRequest): JsonResponse
 	{
 		$request = $storedRequest->validated();
 		$user = auth()->user();
@@ -56,7 +58,7 @@ class MovieController extends Controller
 		return response()->json($movie, 201);
 	}
 
-	public function editMovie(StoreUpdateMovieRequest $updatedRequest): JsonResponse
+	public function edit(StoreUpdateMovieRequest $updatedRequest): JsonResponse
 	{
 		$request = $updatedRequest->validated();
 		$user = auth()->user();
@@ -93,12 +95,12 @@ class MovieController extends Controller
 		return response()->json($movie, 201);
 	}
 
-	public function searchMovies(Request $request): JsonResponse
+	public function search(Request $request): JsonResponse
 	{
-		return response()->json(Movie::filter(['search' => $request['search']])->get(), 200);
+		return response()->json(Movie::filter(['search' => $request['search']])->latest()->get(), 200);
 	}
 
-	public function deleteMovie(Request $request): JsonResponse
+	public function delete(Request $request): JsonResponse
 	{
 		$movie = Movie::where('id', $request['movie_id'])->first();
 		$movie->delete();
