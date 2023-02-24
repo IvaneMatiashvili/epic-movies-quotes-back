@@ -24,7 +24,7 @@ class LikeController extends Controller
 
 			if ((int)$request['user_id'] !== $user->id)
 			{
-				$notification = Notification::create(['is_notification_on' => true,
+				$notification = Notification::create(['is_notification_on'  => true,
 					'notificatable_id'                                         => $like->id,
 					'notificatable_type'                                       => 'App\Models\Like',
 

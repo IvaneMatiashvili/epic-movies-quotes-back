@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreMovieRequest;
+use App\Http\Requests\StoreUpdateMovieRequest;
 use App\Models\Movie;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -26,8 +28,9 @@ class MovieController extends Controller
 		return response()->json([$movie, $movie->genres], 200);
 	}
 
-	public function storeMovie(Request $request): JsonResponse
+	public function storeMovie(StoreMovieRequest $storedRequest): JsonResponse
 	{
+		$request = $storedRequest->validated();
 		$user = auth()->user();
 		$movie = Movie::create([
 			'title' => [
@@ -44,7 +47,7 @@ class MovieController extends Controller
 			],
 			'release_date' => $request['release_date'],
 			'budget'       => $request['budget'],
-			'thumbnail'    => Storage::url($request->file('thumbnail')->store('movie_thumbnails')),
+			'thumbnail'    => Storage::url($storedRequest->file('thumbnail')->store('movie_thumbnails')),
 			'user_id'      => $user->id,
 		]);
 		$genresIds = json_decode($request['genres_ids'], true);
@@ -53,8 +56,9 @@ class MovieController extends Controller
 		return response()->json($movie, 201);
 	}
 
-	public function editMovie(Request $request): JsonResponse
+	public function editMovie(StoreUpdateMovieRequest $updatedRequest): JsonResponse
 	{
+		$request = $updatedRequest->validated();
 		$user = auth()->user();
 		$movie = Movie::where('id', $request['movie_id'])->first();
 
@@ -79,7 +83,7 @@ class MovieController extends Controller
 		if (isset($request['thumbnail']))
 		{
 			$movie->update([
-				'thumbnail'    => Storage::url($request->file('thumbnail')->store('movie_thumbnails')),
+				'thumbnail'    => Storage::url($updatedRequest->file('thumbnail')->store('movie_thumbnails')),
 			]);
 		}
 

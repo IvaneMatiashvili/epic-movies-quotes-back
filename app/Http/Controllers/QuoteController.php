@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Events\NotificationStored;
+use App\Http\Requests\StoreQuoteRequest;
+use App\Http\Requests\StoreUpdateQuoteRequest;
 use App\Models\Comment;
 use App\Models\Movie;
 use App\Models\Notification;
@@ -52,14 +54,16 @@ class QuoteController extends Controller
 		return response()->json($quote, 200);
 	}
 
-	public function storeQuote(Request $request): JsonResponse
+	public function storeQuote(StoreQuoteRequest $storedRequest): JsonResponse
 	{
+		$request = $storedRequest->validated();
+
 		$quote = Quote::create([
 			'quote' => [
 				'en' => $request['quote_en'],
 				'ka' => $request['quote_ka'],
 			],
-			'thumbnail'    => Storage::url($request->file('thumbnail')->store('quote_thumbnails')),
+			'thumbnail'    => Storage::url($storedRequest->file('thumbnail')->store('quote_thumbnails')),
 			'movie_id'     => $request['movie_id'],
 			'movie_title'  => [
 				'en' => $request['movie_title_en'],
@@ -70,8 +74,9 @@ class QuoteController extends Controller
 		return response()->json($quote, 201);
 	}
 
-	public function editQuote(Request $request): JsonResponse
+	public function editQuote(StoreUpdateQuoteRequest $updatedRequest): JsonResponse
 	{
+		$request = $updatedRequest->validated();
 		$quote = Quote::where('id', $request['quote_id'])->first();
 
 		$quote->update([
@@ -87,7 +92,7 @@ class QuoteController extends Controller
 		if (isset($request['thumbnail']))
 		{
 			$quote->update([
-				'thumbnail'    => Storage::url($request->file('thumbnail')->store('quote_thumbnails')),
+				'thumbnail'    => Storage::url($updatedRequest->file('thumbnail')->store('quote_thumbnails')),
 			]);
 		}
 
@@ -108,8 +113,6 @@ class QuoteController extends Controller
 		]);
 
 		$comment->load('user');
-
-		/*		$updatedComment = Comments::where('comment', $comment->id)->first();*/
 
 		if ($comment->user_id !== $storedUserId)
 		{

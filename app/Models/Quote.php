@@ -9,6 +9,7 @@ use Spatie\Translatable\HasTranslations;
 class Quote extends Model
 {
 	use HasFactory;
+
 	use HasTranslations;
 
 	protected $guarded = [];
