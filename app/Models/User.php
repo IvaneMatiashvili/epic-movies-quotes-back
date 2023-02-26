@@ -63,6 +63,11 @@ class User extends Authenticatable
 		return $this->hasMany(Movie::class);
 	}
 
+	public function quotes()
+	{
+		return $this->hasMany(Quote::class);
+	}
+
 	public function likes()
 	{
 		return $this->hasMany(Like::class);

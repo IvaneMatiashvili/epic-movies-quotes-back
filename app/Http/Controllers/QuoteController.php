@@ -56,6 +56,7 @@ class QuoteController extends Controller
 
 	public function store(StoreQuoteRequest $storedRequest): JsonResponse
 	{
+		$user = auth()->user();
 		$request = $storedRequest->validated();
 
 		$quote = Quote::create([
@@ -65,6 +66,7 @@ class QuoteController extends Controller
 			],
 			'thumbnail'    => Storage::url($storedRequest->file('thumbnail')->store('quote_thumbnails')),
 			'movie_id'     => $request['movie_id'],
+			'user_id'      => $user->id,
 			'movie_title'  => [
 				'en' => $request['movie_title_en'],
 				'ka' => $request['movie_title_ka'],

@@ -18,6 +18,11 @@ class Quote extends Model
 
 	public $translatable = ['quote', 'movie_title'];
 
+	public function user()
+	{
+		return $this->belongsTo(User::class);
+	}
+
 	public function movie()
 	{
 		return $this->belongsTo(Movie::class);

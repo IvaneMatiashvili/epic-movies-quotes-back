@@ -18,7 +18,10 @@ class DatabaseSeeder extends Seeder
 		$genres = config('genres.genres');
 
 		collect($genres)->each(function ($genre) {
-			Genre::create(['genre' => $genre]);
+			Genre::create(['genre' => [
+				'en' => $genre['en'],
+				'ka' => $genre['ka'],
+			]]);
 		});
 	}
 }
