@@ -7,20 +7,15 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
 	public function up()
 	{
-		Schema::create('genres', function (Blueprint $table) {
-			$table->id();
-			$table->string('genre');
-			$table->timestamps();
+		Schema::table('quotes', function (Blueprint $table) {
+			$table->foreignId('user_id');
 		});
 	}
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
 	public function down()
 	{
-		Schema::dropIfExists('genres');
+		Schema::table('quotes', function (Blueprint $table) {
+			$table->dropColumn('user_id');
+		});
 	}
 };

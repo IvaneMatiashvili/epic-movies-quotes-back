@@ -8,6 +8,7 @@ use App\Models\Movie;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class MovieController extends Controller
 {
@@ -34,6 +35,21 @@ class MovieController extends Controller
 	{
 		$request = $storedRequest->validated();
 		$user = auth()->user();
+
+		if (Movie::where('title->en', $request['name_en'])->exists())
+		{
+			throw ValidationException::withMessages([
+				'title_en' => 'nam in georgian exist',
+			]);
+		}
+
+		if (Movie::where('title->ka', $request['name_ka'])->exists())
+		{
+			throw ValidationException::withMessages([
+				'title_ka' => 'name in english exist',
+			]);
+		}
+
 		$movie = Movie::create([
 			'title' => [
 				'en' => $request['name_en'],

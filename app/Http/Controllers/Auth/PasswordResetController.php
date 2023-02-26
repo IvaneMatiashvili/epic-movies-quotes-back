@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Validation\ValidationException;
 
 class PasswordResetController extends Controller
 {
@@ -25,6 +26,13 @@ class PasswordResetController extends Controller
 		$requestEmail = $validated['email'];
 		$email = Email::where('email', $requestEmail)->first();
 		$user = $email->user;
+
+		if ($user->google_id !== null)
+		{
+			throw ValidationException::withMessages([
+				'google_email' => 'access denied',
+			]);
+		}
 
 		if ($email->email_verified_at === null)
 		{
