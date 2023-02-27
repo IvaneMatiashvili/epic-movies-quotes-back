@@ -1,4 +1,4 @@
-# Coronatime
+# Epic-Movie-Quotes
 
 ---
 
@@ -10,6 +10,9 @@ Movie quotes - is a platform where users can first register, then login and view
 * [Tech Stack](#tech-stack)
 * [Getting Started](#getting-started)
 * [Migrations](#migration)
+* [Google Credentials](#Google Credentials)
+* [Pusher](#Pusher)
+* [Sanctum](#Sanctum)
 * [Development](#development)
 * [Project Structure](#project-structure)
 
@@ -77,6 +80,39 @@ php artisan migrate
 ```
 
 #
+### Google Credentials
+you also need to add google credentials in **.env** when you start your application locally:
+
+#
+**Google Credentials:**
+>GOOGLE_CLIENT_ID=*********** \
+>GOOGLE_CLIENT_SECRET=********* \
+>GOOGLE_REDIRECT_URL=FRONT_URL\
+
+#
+### Pusher
+in order to use pusher add Pusher Credentials in **.env**:
+
+#
+**Pusher Credentials:**
+> PUSHER_APP_ID=******* \
+>PUSHER_APP_KEY=****** \
+>PUSHER_APP_SECRET=****** \
+>PUSHER_APP_CLUSTER=YOUR_PUSHER_CLUSTER
+
+then replace the broadcast driver with Pusher:
+> BROADCAST_DRIVER=pusher
+
+#
+### Sanctum
+epic movie quotes uses sanctum authentication, because of that you need to add sanctum stateful domains an session domain in **.env**:
+
+#
+**Sanctum:**
+>SANCTUM_STATEFUL_DOMAINS=YOUR_STATEFUL_DOMAINS
+>SESSION_DOMAIN=YOUR_SESSION_DOMAIN
+
+
 ### Development
 
 You can run Laravel's built-in development server by executing:
