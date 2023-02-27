@@ -20,7 +20,7 @@ class LikeController extends Controller
 		}
 		else
 		{
-			$like = Like::create(['user_id' => $user->id, 'quote_id' => $request['quote_id'], 'like' => true]);
+			$like = Like::create(['user_id' => $user->id, 'quote_id' => $request['quote_id']]);
 
 			if ((int)$request['user_id'] !== $user->id)
 			{
