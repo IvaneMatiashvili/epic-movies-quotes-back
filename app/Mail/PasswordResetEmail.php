@@ -20,14 +20,6 @@ class PasswordResetEmail extends Mailable
 
 	public $locale;
 
-	/**
-	 * Create a new message instance.
-	 *
-	 * @param $email
-	 * @param $url
-	 * @param $user
-	 * @param $locale1
-	 */
 	public function __construct($email, $url, $user, $locale)
 	{
 		$this->email = $email;
@@ -36,36 +28,21 @@ class PasswordResetEmail extends Mailable
 		$this->locale = $locale;
 	}
 
-	/**
-	 * Get the message envelope.
-	 *
-	 * @return \Illuminate\Mail\Mailables\Envelope
-	 */
-	public function envelope()
+	public function envelope(): Envelope
 	{
 		return new Envelope(
 			subject: 'Password Reset Email',
 		);
 	}
 
-	/**
-	 * Get the message content definition.
-	 *
-	 * @return \Illuminate\Mail\Mailables\Content
-	 */
-	public function content()
+	public function content(): Content
 	{
 		return new Content(
 			view: 'emails.password-reset-email',
 		);
 	}
 
-	/**
-	 * Get the attachments for the message.
-	 *
-	 * @return array
-	 */
-	public function attachments()
+	public function attachments(): array
 	{
 		return [];
 	}

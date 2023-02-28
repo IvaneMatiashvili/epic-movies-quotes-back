@@ -67,14 +67,4 @@ class Quote extends Model
 			}
 		);
 	}
-
-	public static function boot()
-	{
-		parent::boot();
-
-		static::deleting(function ($quote) {
-			$quote->comments()->delete();
-			$quote->likes()->delete();
-		});
-	}
 }

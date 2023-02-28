@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\NotificationStored;
 use App\Models\Like;
 use App\Models\Notification;
+use App\Models\Quote;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -13,9 +14,11 @@ class LikeController extends Controller
 	public function storeOrDeleteLike(Request $request): JsonResponse
 	{
 		$user = auth()->user();
-		if (isset($request['like_id']))
+		$quote = Quote::where('id', $request['quote_id'])->first();
+		$userLike = $quote->likes->where('user_id', $user->id)->first();
+		if ($userLike !== null)
 		{
-			Like::where('id', $request['like_id'])->first()->delete();
+			Like::where('id', $userLike->id)->first()->delete();
 			return response()->json(['success' => 'like deleted successfully'], 200);
 		}
 		else

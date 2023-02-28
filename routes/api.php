@@ -16,27 +16,37 @@ Broadcast::routes(['middleware' => ['auth:sanctum']]);
 
 Route::middleware('auth:sanctum')->group(function () {
 	Route::post('/logout', [LoginController::class, 'logOut']);
-	Route::post('/edit-user-information', [UserController::class, 'update']);
-	Route::get('/get-user-information', [UserController::class, 'get']);
-	Route::post('/create-new-email', [UserController::class, 'createNewEmail']);
-	Route::get('/get-genres', [MovieController::class, 'getGenres']);
-	Route::get('/get-movies', [MovieController::class, 'index']);
-	Route::get('/get-movie', [MovieController::class, 'show']);
-	Route::get('/get-quote', [QuoteController::class, 'show']);
-	Route::get('/get-quotes', [QuoteController::class, 'index']);
-	Route::post('/search-movies', [MovieController::class, 'search']);
-	Route::post('/store-movie', [MovieController::class, 'store']);
-	Route::post('/edit-movie', [MovieController::class, 'edit']);
-	Route::post('/delete-movie', [MovieController::class, 'delete']);
-	Route::post('/store-quote', [QuoteController::class, 'store']);
-	Route::post('/edit-quote', [QuoteController::class, 'edit']);
-	Route::post('/delete-quote', [QuoteController::class, 'delete']);
-	Route::post('/store-comment', [QuoteController::class, 'storeComment']);
+
+	Route::controller(UserController::class)->group(function () {
+		Route::post('/edit-user-information', 'update');
+		Route::get('/get-user-information', 'get');
+		Route::post('/create-new-email', 'createNewEmail');
+	});
+	Route::controller(MovieController::class)->group(function () {
+		Route::get('/get-genres', 'getGenres');
+		Route::get('/get-movies', 'index');
+		Route::get('/get-movie', 'show');
+		Route::post('/search-movies', 'search');
+		Route::post('/store-movie', 'store');
+		Route::post('/edit-movie', 'edit');
+		Route::post('/delete-movie', 'delete');
+	});
+	Route::controller(QuoteController::class)->group(function () {
+		Route::get('/get-quote', 'show');
+		Route::get('/get-quotes', 'index');
+		Route::post('/store-quote', 'store');
+		Route::post('/edit-quote', 'edit');
+		Route::post('/delete-quote', 'delete');
+		Route::post('/store-comment', 'storeComment');
+		Route::post('/search-quotes', 'search');
+	});
 	Route::post('/store-likes', [LikeController::class, 'storeOrDeleteLike']);
-	Route::post('/search-quotes', [QuoteController::class, 'search']);
-	Route::get('/get-notifications', [NotificationController::class, 'index']);
-	Route::get('/remove-notifications', [NotificationController::class, 'deleteAll']);
-	Route::post('/remove-notification', [NotificationController::class, 'delete']);
+
+	Route::controller(NotificationController::class)->group(function () {
+		Route::get('/get-notifications', 'index');
+		Route::get('/remove-notifications', 'deleteAll');
+		Route::post('/remove-notification', 'delete');
+	});
 });
 
 Route::post('/login', [LoginController::class, 'login']);

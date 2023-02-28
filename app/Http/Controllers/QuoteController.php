@@ -19,20 +19,20 @@ class QuoteController extends Controller
 	{
 		if (Quote::latest()->first() !== null)
 		{
-			$lastQuoteId = Quote::latest()->first()->id;
-			$start = $lastQuoteId - (int) request()->query('start');
+			$start = (int) request()->query('start');
+			$quotes = Quote::all();
 
-			$quotes = Quote::Where('id', '<=', $start)->orderBy('created_at', 'desc')->take(3)->get();
+			$sortedQuotes = collect($quotes)->sortDesc()->slice($start)->take(3)->flatten();
 
 			$movies = Movie::all();
 
 			if (request()->query('start') === '0')
 			{
-				$responseArray = [$quotes, $movies];
+				$responseArray = [$sortedQuotes, $movies];
 			}
 			else
 			{
-				$responseArray = [$quotes];
+				$responseArray = [$sortedQuotes];
 			}
 
 			return response()->json($responseArray, 200);
@@ -73,7 +73,9 @@ class QuoteController extends Controller
 			],
 		]);
 
-		return response()->json($quote, 201);
+		$createdQuote = Quote::where('id', $quote)->first();
+
+		return response()->json($createdQuote, 201);
 	}
 
 	public function edit(StoreUpdateQuoteRequest $updatedRequest): JsonResponse

@@ -20,49 +20,32 @@ class VerifyEmail extends Mailable
 
 	public $locale;
 
-	/**
-	 * Create a new message instance.
-	 *
-	 * @return void
-	 */
-	public function __construct($email, $url, $user, $locale)
+	public $fromProfile;
+
+	public function __construct($email, $url, $user, $locale, $fromProfile)
 	{
 		$this->email = $email;
 		$this->url = $url;
 		$this->user = $user;
 		$this->locale = $locale;
+		$this->fromProfile = $fromProfile;
 	}
 
-	/**
-	 * Get the message envelope.
-	 *
-	 * @return \Illuminate\Mail\Mailables\Envelope
-	 */
-	public function envelope()
+	public function envelope(): Envelope
 	{
 		return new Envelope(
 			subject: 'Verify Email',
 		);
 	}
 
-	/**
-	 * Get the message content definition.
-	 *
-	 * @return \Illuminate\Mail\Mailables\Content
-	 */
-	public function content()
+	public function content(): Content
 	{
 		return new Content(
 			view: 'emails.verify-email',
 		);
 	}
 
-	/**
-	 * Get the attachments for the message.
-	 *
-	 * @return array
-	 */
-	public function attachments()
+	public function attachments(): array
 	{
 		return [];
 	}
