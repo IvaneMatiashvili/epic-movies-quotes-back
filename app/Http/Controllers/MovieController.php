@@ -107,13 +107,14 @@ class MovieController extends Controller
 
 		$genresIds = json_decode($request['genres_ids'], true);
 
-		$movie->genres()->attach($genresIds);
+		$movie->genres()->sync($genresIds);
 		return response()->json($movie, 201);
 	}
 
 	public function search(Request $request): JsonResponse
 	{
-		return response()->json(Movie::filter(['search' => $request['search']])->latest()->get(), 200);
+		$user = auth()->user();
+		return response()->json($user->movies()->filter(['search' => $request['search']])->latest()->get(), 200);
 	}
 
 	public function delete(Request $request): JsonResponse

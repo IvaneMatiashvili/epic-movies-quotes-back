@@ -80,6 +80,8 @@ class UserController extends Controller
 		$validated = $request->validated();
 		$locale = request()->input('locale');
 
+		$fromProfile = true;
+
 		$email = $user->emails()->create(['email' => $validated['email'], 'user_id' => $user->id]);
 
 		$url = URL::temporarySignedRoute(
@@ -90,7 +92,7 @@ class UserController extends Controller
 			]
 		);
 
-		Mail::to($email)->send(new VerifyEmail($email->email, $url, $user, $locale));
+		Mail::to($email)->send(new VerifyEmail($email->email, $url, $user, $locale, $fromProfile));
 
 		return response()->json($email->user, 201);
 	}

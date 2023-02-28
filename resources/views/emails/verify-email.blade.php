@@ -32,7 +32,7 @@
         margin-top: 2rem;
         color: #FFFFFF;
         font-family: 'Inter', 'sans-serif';">
-        {{ __('content.thanksForJoiningAndVerify') }}
+        {{ $fromProfile === true ? __('content.newEmailMsg') : __('content.thanksForJoiningAndVerify') }}
     </p>
         <a href="{{ $locale === 'ka' ? urldecode(env('FRONT_URL').'ka'.'/verify-email?stage=emailActivated&feedback=').$url : urldecode(env('FRONT_URL').'/verify-email?stage=emailActivated&feedback=').$url  }}" style=";
         margin-top: 2.5rem;

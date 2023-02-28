@@ -3,6 +3,7 @@
 return [
 	'hola'                      => 'Hola',
 	'thanksForJoiningAndVerify' => 'Thanks for joining Movie quotes! We really appreciate it. Please click the button below to verify your account',
+	'newEmailMsg'               => 'Please click the button below to verify your new email',
 	'verifyAccount'             => 'Verify account',
 	'resetPassword'             => 'Please click the button below to reset your password',
 	'resetPasswordBtn'          => 'Reset password',

@@ -43,7 +43,9 @@ class RegisterController extends Controller
 				'paramId' => $email->id,
 			]
 		);
-		Mail::to($email)->send(new VerifyEmail($email->email, $url, $user, $locale));
+
+		$fromProfile = false;
+		Mail::to($email)->send(new VerifyEmail($email->email, $url, $user, $locale, $fromProfile));
 
 		return response()->json([$user, $email], 201);
 	}
