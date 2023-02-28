@@ -73,7 +73,7 @@ class QuoteController extends Controller
 			],
 		]);
 
-		$createdQuote = Quote::where('id', $quote)->first();
+		$createdQuote = Quote::where('id', $quote->id)->first();
 
 		return response()->json($createdQuote, 201);
 	}
